@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Determinant using Permutations</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div class="wrap">
+  <header class="top"><div><h1>Determinant Using Permutations</h1>
+  <p class="lead">Any size from 1×1 to 7×7. The page lists every permutation, finds its sign and product, adds the signed terms to get det(A), and checks the result. Fractions like <code>3/2</code> and decimals work.</p>
+  </div></header>
+
+  <div class="layout" id="layout">
+  <section class="card inp" aria-labelledby="in-h">
+    <h2 id="in-h">Your Matrix</h2>
+    <div class="bar">
+      <label class="size">Size n × n <input type="number" id="size" min="1" max="7" value="3"></label>
+      <div class="seg" id="chips" role="group" aria-label="Common sizes">
+        <button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button><button data-n="7">7</button>
+      </div>
+    </div>
+    <div class="bar" id="presets">
+      <button class="btn" data-p="sample">Sample 3×3</button>
+      <button class="btn" data-p="two">Sample 2×2</button>
+      <button class="btn" data-p="sing">Singular example</button>
+      <button class="btn" data-p="clear">Clear</button>
+    </div>
+    <div class="eqs" id="form"></div>
+    <p class="msg" id="err" role="alert"></p>
+  </section>
+
+  <div id="out" aria-live="polite"></div>
+  </div>
+</div>
+<script src="script.js"></script>
+</body>
+</html>
