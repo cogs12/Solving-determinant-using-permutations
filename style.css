@@ -149,3 +149,7 @@ tr.hl td { background: var(--hi); }
 .mbox ul { margin: 8px 0 16px; padding-left: 20px; color: var(--mut); }
 .mbox li { margin: 6px 0; }
 .mact { display: flex; gap: 10px; justify-content: flex-end; }
+/* === 7. SUM FORMULA === */
+.fm { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 1.3rem; margin: 0 0 12px; }
+.fm .op { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; font-size: 1.7rem; }
+.fm .op small { font-size: 0.7rem; }
