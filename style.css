@@ -138,6 +138,7 @@ tr.hl td { background: var(--hi); }
 
 .vt { border-collapse: collapse; font: 0.9rem ui-monospace, SFMono-Regular, Menlo, monospace; }
 .vt th, .vt td { padding: 4px 12px; text-align: right; border-bottom: 1px solid var(--line); }
+.vt th { text-align: center; }
 .wk { text-align: left !important; white-space: nowrap; }
 .chk { list-style: none; padding: 0; margin: 0 0 10px; }
 .wl { list-style: none; padding: 0; margin: 8px 0 0; font: 0.88rem/1.7 ui-monospace, SFMono-Regular, Menlo, monospace; max-height: 280px; overflow: auto; white-space: nowrap; }

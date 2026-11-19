@@ -9,38 +9,32 @@
 <body>
 <div class="wrap">
   <header class="top"><div><h1>Determinant Using Permutations</h1>
-  <p class="lead">Any size from 1×1 to 7×7 (up to 30×30 with the limit removed). The page lists every permutation, finds its sign and product, adds the signed terms to get det(A), and checks the result. Fractions like <code>3/2</code> and decimals work.</p>
+  <p class="lead">Any size. The page lists the permutations up to 7×7 (above that they are added without being shown, and Solve starts the calculation), finds each sign and product, adds the signed terms to get det(A), and checks the result with the same formula. Fractions like <code>3/2</code> and decimals work.</p>
   </div></header>
 
   <div class="layout" id="layout">
   <section class="card inp" aria-labelledby="in-h">
     <h2 id="in-h">Your Matrix</h2>
     <div class="bar">
-      <label class="size">Size n × n <input type="number" id="size" min="1" max="7" value="3"></label>
+      <label class="size">Size n × n <input type="number" id="size" min="1" value="3"></label>
       <div class="seg" id="chips" role="group" aria-label="Common sizes">
-        <button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button><button data-n="7">7</button><button data-n="8" class="big" hidden>8</button><button data-n="10" class="big" hidden>10</button><button data-n="12" class="big" hidden>12</button><button data-n="16" class="big" hidden>16</button><button data-n="20" class="big" hidden>20</button><button data-n="30" class="big" hidden>30</button>
+        <button data-n="2">2</button><button data-n="3">3</button><button data-n="4">4</button><button data-n="5">5</button><button data-n="6">6</button><button data-n="7">7</button><button data-n="8">8</button><button data-n="10">10</button><button data-n="12">12</button><button data-n="16">16</button><button data-n="20">20</button><button data-n="30">30</button>
       </div>
-      <span class="tag" id="mode" hidden></span>
-      <span class="mut" id="sizeNote"></span>
-      <label class="unlock" title="Allows matrices up to 30×30 (after a warning)"><input type="checkbox" id="unlock"> Remove the 7×7 limit</label>
     </div>
     <div class="bar" id="presets">
       <button class="btn" data-p="sample">Sample 3×3</button>
       <button class="btn" data-p="two">Sample 2×2</button>
       <button class="btn" data-p="sing">Singular example</button>
+      <button class="btn primary" data-p="rand">Randomize</button>
       <button class="btn" data-p="clear">Clear</button>
     </div>
+    <div class="bar" id="solveBar" hidden><button class="btn primary" id="solveBtn">Solve ▶</button><span class="mut" id="solveHint"></span></div>
     <div class="eqs" id="form"></div>
     <p class="msg" id="err" role="alert"></p>
   </section>
 
   <div id="out" aria-live="polite"></div>
   </div>
-</div>
-
-<div class="modal" id="modal" hidden role="dialog" aria-modal="true" aria-labelledby="mTitle">
-  <div class="mbox"><h3 id="mTitle"></h3><ul id="mList"></ul>
-    <div class="mact"><button class="btn" id="mCancel">Cancel</button><button class="btn danger" id="mOk">Continue</button></div></div>
 </div>
 
 <script src="script.js"></script>
