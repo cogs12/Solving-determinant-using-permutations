@@ -66,6 +66,11 @@ def serve_js():
     return FileResponse(HERE / "script.js", media_type="application/javascript")
 
 
+@app.get("/pricedown.otf")
+def serve_font():
+    return FileResponse(HERE / "pricedown.otf", media_type="font/otf")
+
+
 @app.post("/api/solve")
 def solve(m: Matrix):
     """Validates the matrix, then lists every Leibniz term for A and for A transposed."""

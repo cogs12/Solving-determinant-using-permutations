@@ -1,34 +1,26 @@
-/* === 1. THEME VARIABLES === */
-:root {
-  --bg: #f4f5f8;
-  --card: #ffffff;
-  --field: #f8f9fb;
-  --thumb: #ffffff;
-  --ink: #14161f;
-  --mut: #5a6072;
-  --edge: #dcdfe6;
-  --line: #e4e7ed;
-  --tint: #0066cc;
-  --hi: #eef5ff;
-  --ok: #1b8a43;
-  --bad: #d62839;
+/* === 1. THEME VARIABLES (GTA VI: Vice City sunset) === */
+@font-face {
+  font-family: 'Pricedown';
+  src: url('pricedown.otf') format('opentype');
+  font-display: swap;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #11131a;
-    --card: #1a1d27;
-    --field: #141720;
-    --thumb: #252a3a;
-    --ink: #f0f2f5;
-    --mut: #9aa0b0;
-    --edge: #2c3142;
-    --line: #282d3d;
-    --tint: #2e90fa;
-    --hi: #1f2a40;
-    --ok: #30d158;
-    --bad: #ff6b6b;
-  }
+:root {
+  --bg: #140828;
+  --card: #1f0f3a;
+  --field: #170a2e;
+  --thumb: #3a1c5c;
+  --ink: #fff4fa;
+  --mut: #cfb0e0;
+  --edge: #52307a;
+  --line: #3a2158;
+  --tint: #ff3d9a;
+  --hi: #3f1d52;
+  --ok: #3dffb0;
+  --bad: #ff6b6b;
+  --sun1: #ff2e93;
+  --sun2: #ff8a3d;
+  --sky: #2b0d4f;
 }
 
 /* === 2. BASE & PAGE LAYOUT === */
@@ -154,3 +146,37 @@ tr.hl td { background: var(--hi); }
 .fm { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 1.3rem; margin: 0 0 12px; }
 .fm .op { display: inline-flex; flex-direction: column; align-items: center; line-height: 1.1; font-size: 1.7rem; }
 .fm .op small { font-size: 0.7rem; }
+
+/* === 8. GTA VI THEME OVERRIDES === */
+html {
+  min-height: 100%;
+  background: linear-gradient(180deg, #2b0d4f 0%, #6a1b8a 30%, #d6307f 62%, #ff8a3d 100%) fixed;
+}
+body { background: transparent; }
+
+.card {
+  background: rgba(24, 10, 46, 0.92);
+  box-shadow: 0 0 0 1px rgba(255, 61, 154, 0.18), 0 10px 32px rgba(0, 0, 0, 0.4);
+}
+.lead, .hint { color: #ffe3f1; }
+
+/* Pricedown headings: 0.02em letter spacing + black outline */
+h1, h2 {
+  font-family: 'Pricedown', Impact, 'Arial Black', sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+  color: #fff;
+  -webkit-text-stroke: 3px #000;
+  paint-order: stroke fill;
+  text-shadow: 3px 3px 0 #000, 5px 5px 0 var(--sun1);
+}
+h1 { font-size: clamp(2rem, 4vw, 3.2rem); line-height: 1.1; }
+h2 { font-size: 1.5rem; -webkit-text-stroke-width: 2.5px; text-shadow: 2px 2px 0 #000, 4px 4px 0 var(--sun1); }
+h2 .n { -webkit-text-stroke: 0; text-shadow: none; font-family: system-ui, sans-serif; background: linear-gradient(135deg, var(--sun1), var(--sun2)); }
+
+.btn.primary { background: linear-gradient(90deg, var(--sun1), var(--sun2)); }
+.btn:hover { border-color: var(--sun1); }
+.seg button[aria-pressed="true"] { border-color: var(--sun1); color: #fff; }
+.ans div { border-left-color: var(--sun2); }
+.dv { border-left-color: var(--sun1); }
+summary { color: var(--sun2); }
