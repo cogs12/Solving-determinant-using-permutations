@@ -1,5 +1,5 @@
 const MAX_N = 7;  // solves automatically up to here; above it, Solve starts the calculation
-let N = 3, A = [], tmr, seq = 0;
+let N = 3, A = [], tmr, seq = 0, ctrl = null, RUN = '';
 const needsSolve = () => N > MAX_N;
 const $ = id => document.getElementById(id);
 const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -68,25 +68,41 @@ const report = r => `${matCard}${mat(A)}</section>
    <div class="ans"><div>det(A) = ${fix(r.det)}</div></div></section>
   ${verifyCard(r)}`;
 
+const newRun = () => Date.now() + '-' + Math.random().toString(36).slice(2);
+
+function cancelRun() {
+  if (!ctrl) return;
+  fetch('/api/stop', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ run: RUN }) }).catch(() => {});
+  ctrl.abort();
+  ctrl = null;
+  $('solveBtn').disabled = false;
+  $('stopBtn').hidden = true;
+}
+
 async function compute(force) {
+  cancelRun();
   if (needsSolve()) {
     if (!force) {
       seq++;
       $('err').textContent = '';
       $('out').innerHTML = '';
-      $('solveHint').textContent = `${N}×${N} has ${fact(N)} permutations, and all of them are listed twice (for A and for Aᵀ). Press Solve to start. ${N >= 9 ? 'This builds millions of rows: it can use several GB of memory and freeze the page or the server. Stop the server to cancel.' : 'This can take several seconds.'}`;
+      $('solveHint').textContent = `${N}×${N} has ${fact(N)} permutations, and all of them are listed twice (for A and for Aᵀ). Press Solve to start, and Stop to cancel. ${N >= 9 ? 'This builds millions of rows: it can use several GB of memory and freeze the page.' : 'This can take several seconds.'}`;
       return;
     }
     $('out').innerHTML = '<p class="mut">Solving…</p>';
     $('solveBtn').disabled = true;
+    $('stopBtn').hidden = false;
     $('solveHint').textContent = '';
+    RUN = newRun();
+    ctrl = new AbortController();
   }
   const mine = ++seq;
   try {
     const r = await fetch('/api/solve', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ A })
+      body: JSON.stringify({ A, run: needsSolve() ? RUN : '' }),
+      signal: ctrl ? ctrl.signal : undefined
     });
     if (mine !== seq) return;
     if (r.status === 422) {
@@ -97,14 +113,19 @@ async function compute(force) {
     }
     if (!r.ok) throw new Error('API returned ' + r.status);
     const j = await r.json();
-    if (mine !== seq) return;
+    if (mine !== seq || j.stopped) return;
     $('err').textContent = '';
     $('out').innerHTML = report(j);
   } catch (e) {
+    if (e.name === 'AbortError') return;
     $('err').textContent = 'Could not reach the Python API. Run det_api.py first.';
     $('out').innerHTML = '';
   } finally {
-    $('solveBtn').disabled = false;
+    if (mine === seq) {
+      ctrl = null;
+      $('solveBtn').disabled = false;
+      $('stopBtn').hidden = true;
+    }
   }
 }
 
@@ -128,4 +149,9 @@ $('form').addEventListener('input', e => {
   tmr = setTimeout(compute, 150);
 });
 $('solveBtn').addEventListener('click', () => compute(true));
+$('stopBtn').addEventListener('click', () => {
+  cancelRun();
+  compute();
+  $('out').innerHTML = '<p class="mut">Stopped.</p>';
+});
 load(PRESETS.sample);

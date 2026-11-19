@@ -13,13 +13,20 @@ from fractions import Fraction as F
 from itertools import permutations
 
 
-def leibniz(A):
+class Stopped(Exception):
+    """Raised when the user presses Stop."""
+
+
+def leibniz(A, stop=None):
     """Returns (det, rows). Each row is the full working for one permutation, as display strings:
-    [#, sigma, inversion pairs, inversion count, sign, entries and values, product, signed term, running sum]."""
+    [#, sigma, inversion pairs, inversion count, sign, entries and values, product, signed term, running sum].
+    If stop (a threading.Event) is set, the calculation is abandoned by raising Stopped."""
     n = len(A)
     total = F(0)
     rows = []
     for k, p in enumerate(permutations(range(n)), 1):
+        if stop is not None and stop.is_set():
+            raise Stopped
         pairs = [(p[i] + 1, p[j] + 1) for i in range(n) for j in range(i + 1, n) if p[i] > p[j]]
         sign = -1 if len(pairs) % 2 else 1
         factors = [A[i][p[i]] for i in range(n)]
